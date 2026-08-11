@@ -1,0 +1,6 @@
+{
+  "name": "HelpDesk IA - Suporte TI",
+  "description": "Assistente inteligente de suporte de TI e Helpdesk com respostas, triagem e chamados em tempo real.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
