@@ -1,0 +1,1862 @@
+{
+  "name": "HelpDesk-IA (Webhook para Front)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "helpdesk",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*"
+        }
+      },
+      "id": "c5f20f0e-87de-4ed0-bd34-b364dd0496d4",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        1408
+      ],
+      "webhookId": "f1a9fda4-5fe8-4ae4-bba0-8dc1cbd9c58f"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "/start",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "start"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "cat_",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "categoria"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "status_",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "status"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "issue_",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "issue"
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "texto_livre"
+        }
+      },
+      "id": "f0d7e650-cfce-44e2-a133-16cedd592362",
+      "name": "Roteador Principal",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        1360
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "Olá! Sou o assistente do HelpDesk-IA. Selecione a área que você precisa de suporte hoje?",
+          "buttons": [
+            {
+              "text": "1 - 🌐 Rede e Internet",
+              "action": "cat_rede"
+            },
+            {
+              "text": "2 - 🖨️ Impressoras",
+              "action": "cat_impressora"
+            },
+            {
+              "text": "3 - 🔑 Login e Acesso",
+              "action": "cat_login"
+            },
+            {
+              "text": "4 - 📧 E-mail",
+              "action": "cat_email"
+            },
+            {
+              "text": "5 - 💻 Sistemas",
+              "action": "cat_sistema"
+            },
+            {
+              "text": "6 - 🖥️ Hardware",
+              "action": "cat_hardware"
+            },
+            {
+              "text": "7 - 📝 Abrir Chamado",
+              "action": "cat_chamado"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "84faf5e2-c775-4723-af51-7022cf631711",
+      "name": "Menu de Start",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        512,
+        304
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "cat_rede",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "cat_rede"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "cat_impressora",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "cat_impressora"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "cat_login",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "cat_login"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "cat_email",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "cat_email"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "cat_sistema",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "cat_sistema"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "cat_hardware",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "cat_hardware"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "cat_chamado",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "cat_chamado"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "27eb1530-809e-454d-a129-663dd9e2d143",
+      "name": "Roteador Categorias",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        512,
+        496
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "Qual seu problema de rede?",
+          "buttons": [
+            {
+              "text": "Sem acesso à internet via cabo",
+              "action": "issue_rede_1"
+            },
+            {
+              "text": "Wi-Fi desconectando ou sem sinal",
+              "action": "issue_rede_2"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "01c6dbc6-9115-4f28-b784-2852fe125ea0",
+      "name": "Menu Problemas de Rede",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "Qual seu problema na impressora?",
+          "buttons": [
+            {
+              "text": "Papel atolado na impressora",
+              "action": "issue_impressora_1"
+            },
+            {
+              "text": "Impressão saindo fraca ou com falhas",
+              "action": "issue_impressora_2"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "7e7d4256-2fdb-4809-b8e3-face0cc92ff1",
+      "name": "Menu Problemas na Impressora",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "Qual seu problema de acesso?",
+          "buttons": [
+            {
+              "text": "Senha expirada ou bloqueada",
+              "action": "issue_acess_1"
+            },
+            {
+              "text": "Erro de autenticação de dois fatores",
+              "action": "issue_acess_2"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "a1db2f33-1efc-4491-8085-2075df68248b",
+      "name": "Menu Problemas de Acesso/Login",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        384
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "Qual seu problema de e-mail?",
+          "buttons": [
+            {
+              "text": "Outlook não abre ou trava",
+              "action": "issue_email_1"
+            },
+            {
+              "text": "Não envio/recebo e-mails",
+              "action": "issue_email_2"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "bac01f37-f450-4f51-8aac-43b8dafc70c5",
+      "name": "Menu Problemas de E-mail",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        576
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "Qual seu problema com o sistema?",
+          "buttons": [
+            {
+              "text": "Sistema lento ou travando",
+              "action": "issue_sistema_1"
+            },
+            {
+              "text": "Erro ao abrir o software",
+              "action": "issue_sistema_2"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "686368d1-3ffe-4d8f-a9ab-4f9ddccbd3b0",
+      "name": "Menu Problemas de Sistemas",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        768
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "Qual seu problema de hardware?",
+          "buttons": [
+            {
+              "text": "Monitor sem imagem",
+              "action": "issue_hardware_1"
+            },
+            {
+              "text": "Teclado ou mouse não funciona",
+              "action": "issue_hardware_2"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "8fad9360-7c1f-4d02-a8c5-6ea01c918f9f",
+      "name": "Menu Problemas de Hardware",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        960
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "📝 Vamos registrar uma solicitação formal para a equipe de TI.\n\nDescreva em uma mensagem o problema que você está enfrentando (o que acontece, desde quando e em qual equipamento/sistema). Assim que enviar, um chamado será encaminhado ao suporte.",
+          "buttons": []
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "17d26ad2-d09d-4463-b8b0-181ebf68bafd",
+      "name": "Resposta Abrir Chamado",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        1152
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "={{ $json.body.action === 'status_ok' ? '✅ Excelente! Atendimento finalizado.' : '⚠️ Atendimento não resolvido. Criando chamado para o suporte de TI...' }}",
+          "resolved": "={{ $json.body.action === 'status_ok' }}",
+          "buttons": []
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "6603fa88-2196-476b-b572-360a0b4fb586",
+      "name": "Resposta Status/Chamado",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        512,
+        1216
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "issue_rede_1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "issue_rede_1"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "issue_rede_2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "issue_rede_2"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "issue_impressora_1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "issue_impressora_1"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "issue_impressora_2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "issue_impressora_2"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "issue_acess_1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "issue_acess_1"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "issue_acess_2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "issue_acess_2"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "issue_email_1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "issue_email_1"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "issue_email_2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "issue_email_2"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "issue_sistema_1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "issue_sistema_1"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "issue_sistema_2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "issue_sistema_2"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "issue_hardware_1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "issue_hardware_1"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.action }}",
+                    "rightValue": "issue_hardware_2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "issue_hardware_2"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1d973006-2318-4984-b0a3-17e848511532",
+      "name": "Roteador Problemas",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        512,
+        2240
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "O cabo de rede está conectado firmemente na parte traseira do computador?\n\nConecte o cabo de rede até ouvir um estalo (clique) e verifique se as luzes amarelas/verdes ao lado da porta acenderam.\n\nA conexão foi restabelecida?",
+          "buttons": [
+            {
+              "text": "Sim",
+              "action": "status_ok"
+            },
+            {
+              "text": "Não",
+              "action": "status_fail"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "d4441935-2a01-489e-a154-bed3b0a38367",
+      "name": "issue_rede_1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        1344
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "O modo avião está ativado ou a rede Wi-Fi correta da instituição está selecionada?\n\nDesative o modo avião, desconecte da rede atual e reconecte selecionando a rede oficial da instituição.\n\nA conexão foi restabelecida?",
+          "buttons": [
+            {
+              "text": "Sim",
+              "action": "status_ok"
+            },
+            {
+              "text": "Não",
+              "action": "status_fail"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "a9009920-2c10-47f5-8214-24a404e7d254",
+      "name": "issue_rede_2",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        1536
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "A impressora está exibindo uma luz vermelha/amarela piscando indicando papel preso?\n\nDesligue a impressora, abra a tampa principal e puxe o papel preso suavemente com as duas mãos na direção da saída.\n\nA impressora voltou a funcionar corretamente?",
+          "buttons": [
+            {
+              "text": "Sim",
+              "action": "status_ok"
+            },
+            {
+              "text": "Não",
+              "action": "status_fail"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "58522eb9-73d8-4be0-a8f6-441bea590826",
+      "name": "issue_impressora_1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        1728
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "A impressora emite algum aviso de toner ou cartucho com nível baixo?\n\nRetire o cartucho de toner com cuidado, balance-o suavemente na horizontal e encaixe-o novamente.\n\nA impressora voltou a funcionar corretamente?",
+          "buttons": [
+            {
+              "text": "Sim",
+              "action": "status_ok"
+            },
+            {
+              "text": "Não",
+              "action": "status_fail"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "58a36f4e-34a2-470a-aad3-b3f5f4541bdf",
+      "name": "issue_impressora_2",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        1920
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "O sistema exibe a mensagem 'Senha Incorreta' ou 'Conta Bloqueada'?\n\nAcesse o portal de autoatendimento corporativo e utilize a opção 'Esqueci minha senha' para receber um código de redefinição por SMS/E-mail. Ou se dirija à diretoria.\n\nO acesso foi restabelecido?",
+          "buttons": [
+            {
+              "text": "Sim",
+              "action": "status_ok"
+            },
+            {
+              "text": "Não",
+              "action": "status_fail"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "4d91d760-5789-4a54-9f31-b39cadeb82b4",
+      "name": "issue_acess_1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        2112
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "O código de validação do aplicativo autenticador está dando como inválido?\n\nVerifique se a hora do seu celular está configurada para atualização automática. Horários dessincronizados geram códigos inválidos.\n\nO acesso foi restabelecido?",
+          "buttons": [
+            {
+              "text": "Sim",
+              "action": "status_ok"
+            },
+            {
+              "text": "Não",
+              "action": "status_fail"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "39386721-46bc-487a-a48f-3d8b1dfac583",
+      "name": "issue_acess_2",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        2304
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "O Outlook trava ao abrir ou fica em \"Processando\"?\n\nFeche o Outlook completamente e abra novamente em Modo de Segurança (segure a tecla Ctrl enquanto clica no ícone). Se abrir normalmente assim, desative os suplementos em Arquivo > Opções > Suplementos.\n\nO Outlook voltou a funcionar?",
+          "buttons": [
+            {
+              "text": "Sim",
+              "action": "status_ok"
+            },
+            {
+              "text": "Não",
+              "action": "status_fail"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "5f701045-2797-4536-ad77-750a305c49da",
+      "name": "issue_email_1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        2496
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "As mensagens ficam presas na Caixa de Saída ou não chegam novas?\n\nVerifique sua conexão com a internet e clique em \"Enviar/Receber Todas as Pastas\". Confirme também se a caixa de correio não está cheia (limpe itens antigos e a lixeira).\n\nO envio/recebimento foi normalizado?",
+          "buttons": [
+            {
+              "text": "Sim",
+              "action": "status_ok"
+            },
+            {
+              "text": "Não",
+              "action": "status_fail"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "635725f3-572f-47bd-a52e-f6f0d68fce6d",
+      "name": "issue_email_2",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        2688
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "O sistema está lento ou travando durante o uso?\n\nFeche os programas que não está usando e reinicie o computador para liberar memória. Se persistir, verifique pelo Gerenciador de Tarefas (Ctrl+Shift+Esc) se algum processo está consumindo muita CPU ou memória.\n\nO desempenho melhorou?",
+          "buttons": [
+            {
+              "text": "Sim",
+              "action": "status_ok"
+            },
+            {
+              "text": "Não",
+              "action": "status_fail"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "4dad4160-9d3d-485a-b5e2-a8b9b7d535f7",
+      "name": "issue_sistema_1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        2880
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "Aparece uma mensagem de erro ao abrir o software?\n\nAnote o texto exato do erro, feche e tente abrir novamente como Administrador (clique com o botão direito > \"Executar como administrador\"). Um reinício do computador também costuma resolver falhas temporárias.\n\nO software abriu corretamente?",
+          "buttons": [
+            {
+              "text": "Sim",
+              "action": "status_ok"
+            },
+            {
+              "text": "Não",
+              "action": "status_fail"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "e193138f-25ef-47ac-8aa9-e727eb449539",
+      "name": "issue_sistema_2",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        3072
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "O monitor está sem imagem (tela preta) mesmo com o computador ligado?\n\nVerifique se o monitor está ligado e se o cabo de vídeo (HDMI/VGA/DisplayPort) está bem encaixado nas duas pontas. Teste outra entrada de vídeo ou outro cabo, se possível.\n\nA imagem voltou?",
+          "buttons": [
+            {
+              "text": "Sim",
+              "action": "status_ok"
+            },
+            {
+              "text": "Não",
+              "action": "status_fail"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "57794c7e-3b8b-4cd3-b753-44157e1f8f89",
+      "name": "issue_hardware_1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        3264
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "O teclado ou o mouse pararam de responder?\n\nDesconecte o cabo USB e conecte em outra porta USB. Se for sem fio, verifique/troque as pilhas e reconecte o receptor. Reiniciar o computador também restabelece dispositivos travados.\n\nO dispositivo voltou a funcionar?",
+          "buttons": [
+            {
+              "text": "Sim",
+              "action": "status_ok"
+            },
+            {
+              "text": "Não",
+              "action": "status_fail"
+            }
+          ]
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "9635dc89-3b77-4f4c-b955-6aa1c18cf486",
+      "name": "issue_hardware_2",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        3456
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.body.message }}",
+        "options": {
+          "systemMessage": "Você é o assistente virtual do HelpDesk-IA, especialista em suporte técnico de TI (rede/internet, impressoras, login/acesso, e-mail, sistemas e hardware). Responda em português do Brasil, de forma clara, cordial e objetiva. Estruture soluções em passos numerados quando fizer sentido. Se o problema for complexo demais ou você não souber resolver com segurança, oriente o usuário a abrir um chamado com o departamento de TI. Se o usuário só quiser navegar por opções guiadas, sugira enviar a ação /start para ver o menu.",
+          "maxIterations": 10
+        }
+      },
+      "id": "6d64b219-c000-471e-b089-4e1a0af6a577",
+      "name": "Assistente IA",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        448,
+        3648
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite",
+        "options": {}
+      },
+      "id": "a96c0611-65bc-448b-b447-0547cce02472",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        464,
+        3872
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "BlGNlVTKZC8s32Mw",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": {
+          "text": "={{ $json.output }}",
+          "buttons": []
+        },
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, OPTIONS"
+              }
+            ]
+          }
+        }
+      },
+      "id": "282c4f9b-adb4-46cc-bf44-477ed8c0cd69",
+      "name": "Resposta da IA",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        800,
+        3648
+      ]
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Webhook').item.json.body.sessionId }}",
+        "contextWindowLength": 10
+      },
+      "id": "bc2fc7a3-f650-44de-bd24-775ff9268350",
+      "name": "Memória por usuário",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        544,
+        3824
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Roteador Principal",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Roteador Principal": {
+      "main": [
+        [
+          {
+            "node": "Menu de Start",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Roteador Categorias",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Resposta Status/Chamado",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Roteador Problemas",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Assistente IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Roteador Categorias": {
+      "main": [
+        [
+          {
+            "node": "Menu Problemas de Rede",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Menu Problemas na Impressora",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Menu Problemas de Acesso/Login",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Menu Problemas de E-mail",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Menu Problemas de Sistemas",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Menu Problemas de Hardware",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Resposta Abrir Chamado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Roteador Problemas": {
+      "main": [
+        [
+          {
+            "node": "issue_rede_1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_rede_2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_impressora_1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_impressora_2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_acess_1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_acess_2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_email_1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_email_2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_sistema_1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_sistema_2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_hardware_1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_hardware_2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assistente IA": {
+      "main": [
+        [
+          {
+            "node": "Resposta da IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Assistente IA",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Memória por usuário": {
+      "ai_memory": [
+        [
+          {
+            "node": "Assistente IA",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "627ecb5e-1509-4a43-a794-801e58e57a87",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fd4eed9a35129fb1b6079e0c4240f17464d2dfb51e49e8fdacbea3d8ead1c324"
+  },
+  "nodeGroups": [],
+  "id": "973RH2GVV9cUjqQL",
+  "tags": []
+}

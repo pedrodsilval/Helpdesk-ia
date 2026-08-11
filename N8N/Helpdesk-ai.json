@@ -1,0 +1,1340 @@
+{
+  "name": "Helpdesk-ai",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "*",
+          "callback_query"
+        ],
+        "additionalFields": {}
+      },
+      "id": "53d0343c-d29c-40ae-afdc-16a4480f7ffb",
+      "name": "Telegram Trigger",
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        576
+      ],
+      "webhookId": "8c50ba80-8bab-40f0-84a4-613aebf69bb6",
+      "credentials": {
+        "telegramApi": {
+          "id": "LLe8jx22k6vT6vje",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/start",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "97dbfab0-434f-45bf-abc2-1bdf65e8a90e"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4472a801-73f0-4114-afbc-c7a1ae9104fe",
+                    "leftValue": "={{ $json.callback_query?.data }}",
+                    "rightValue": "cat_",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "8f5b1c61-c99e-47d0-9f59-28c59092cf03",
+                    "leftValue": "={{ $json.callback_query?.data }}",
+                    "rightValue": "status_",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "42bb96c6-53d0-462e-b30f-38f94bbd61b4",
+                    "leftValue": "={{ $json.callback_query?.data }}",
+                    "rightValue": "issue_",
+                    "operator": {
+                      "type": "string",
+                      "operation": "startsWith"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a9f5f465-28d0-4c59-8b0c-a7c8568db4c6",
+                    "leftValue": "={{ $json.message.text }}",
+                    "rightValue": "/start",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "45c5a61b-1bcc-4d2f-8e8b-f72fbd1e9136",
+      "name": "Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        528
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.message.chat.id }}",
+        "text": "Olá! Sou o assistente do HelpDesk-IA. Selecione a área você precisa de suporte hoje?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "1 - 🌐 Rede e Internet",
+                    "additionalFields": {
+                      "callback_data": "cat_rede"
+                    }
+                  },
+                  {
+                    "text": "2 - 🖨️ Impressoras",
+                    "additionalFields": {
+                      "callback_data": "cat_impressora"
+                    }
+                  },
+                  {
+                    "text": "3 - 🔑 Login e Acesso",
+                    "additionalFields": {
+                      "callback_data": "cat_login"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "id": "ae84d359-e657-4d7f-ba8f-cbcc03378926",
+      "name": "Menu de start",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        512,
+        0
+      ],
+      "webhookId": "5091c39f-c544-4141-99b4-f3015f8ddb97",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "LLe8jx22k6vT6vje",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "cat_rede",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "0729957d-4076-4367-ac87-0c26803fb301"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "5ac508de-d0a1-4f84-9e45-76ce6314775c",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "cat_impressora",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "48dc4a19-841e-4705-aa65-87bbb78d8fed",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "cat_login",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "99c5fcd5-deb6-46c0-bd70-62648ee61e25",
+      "name": "Switch1",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        512,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query.message.chat.id }}",
+        "text": "Qual seu problema de rede?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Sem acesso à internet via cabo",
+                    "additionalFields": {
+                      "callback_data": "issue_rede_1"
+                    }
+                  },
+                  {
+                    "text": "Wi-Fi desconectando ou sem sinal",
+                    "additionalFields": {
+                      "callback_data": "issue_rede_2"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "id": "d1d23903-871c-497f-9f2f-5a22522ca591",
+      "name": "Menu de Problemas de Rede",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        16
+      ],
+      "webhookId": "27b38d94-211e-4a16-9acb-a122adc7d1a6",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "LLe8jx22k6vT6vje",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query.message.chat.id }}",
+        "text": "Qual seu problema na impressora?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Papel atolado na impressora",
+                    "additionalFields": {
+                      "callback_data": "issue_impressora_1"
+                    }
+                  },
+                  {
+                    "text": "Impressão saindo fraca ou com falhas",
+                    "additionalFields": {
+                      "callback_data": "issue_impressora_2"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "id": "efb6ce75-6765-4add-8acf-582453b9fa00",
+      "name": "Menu de Problemas na Impressora",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        208
+      ],
+      "webhookId": "2c6cbe15-e90c-4017-8db2-4f2266c435ef",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "LLe8jx22k6vT6vje",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query.message.chat.id }}",
+        "text": "Qual seu problema de acesso?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Senha expirada ou bloqueada",
+                    "additionalFields": {
+                      "callback_data": "issue_acess_1"
+                    }
+                  },
+                  {
+                    "text": "Erro de autenticação de dois fatores",
+                    "additionalFields": {
+                      "callback_data": "issue_acess_2"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "id": "cf68f748-0ed7-4147-aa64-c0d22c93fc7d",
+      "name": "Menu problemas de Acesso/Login",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        400
+      ],
+      "webhookId": "e16030a7-2b69-41b3-b2f9-54edababbcb8",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "LLe8jx22k6vT6vje",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $json.callback_query.message.chat.id }}",
+        "text": "={{ $json.callback_query?.data === 'status_ok' ? '✅ Excelente! Atendimento finalizado.' : '⚠️ Atendimento não resolvido. Criando chamado para suporte de TI...' }}",
+        "additionalFields": {}
+      },
+      "id": "01632c00-8a65-4b87-9763-3231bc759e34",
+      "name": "Chamado para Suporte Ténico",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        512,
+        480
+      ],
+      "webhookId": "572f5b8a-9b9f-4919-acc0-68b9bf457d24",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "LLe8jx22k6vT6vje",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "issue_rede_1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "684665ba-e510-4815-9012-cea3c3aae834"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "e5035b5b-1477-4c2d-bf69-87e3083668e3",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "issue_rede_2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "e37c29c2-8665-4dc0-b62b-151c61dff05b",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "issue_impressora_1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "16471a76-f30c-4fe6-ab02-b5e3bc42618c",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "issue_impressora_2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "67b98a97-106c-4178-851c-9d7ede31cf90",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "issue_acess_1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "d757d810-abc8-44c3-856d-788959533ef7",
+                    "leftValue": "={{ $json.callback_query.data }}",
+                    "rightValue": "issue_acess_2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1696fdac-747e-4454-a4a8-5cde745cf228",
+      "name": "Switch2",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        512,
+        1008
+      ]
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
+        "text": "O cabo de rede está conectado firmemente na parte traseira do computador?\n\nConecte o cabo de rede até ouvir um estalo (clique) e verifique se as luzes amarelas/verdes ao lado da porta acenderam.\n\nA conexão foi restabelecida?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Sim",
+                    "additionalFields": {
+                      "callback_data": "status_ok"
+                    }
+                  },
+                  {
+                    "text": "Não",
+                    "additionalFields": {
+                      "callback_data": "status_fail"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "id": "97e86b5b-7f11-47d5-8198-8d20a68cf1de",
+      "name": "issue_rede_1",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        592
+      ],
+      "webhookId": "2cffc32c-80e2-4e9a-9eef-28b5cc9d856a",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "LLe8jx22k6vT6vje",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
+        "text": "O modo avião está ativado ou a rede Wi-Fi correta da instituição está selecionada?\n\nDesative o modo avião, desconecte da rede atual e reconecte selecionando a rede oficial da instituição.\n\nA conexão foi restabelecida?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Sim",
+                    "additionalFields": {
+                      "callback_data": "status_ok"
+                    }
+                  },
+                  {
+                    "text": "Não",
+                    "additionalFields": {
+                      "callback_data": "status_fail"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "id": "fcdceb43-b13f-4035-8347-4664ff12a3c8",
+      "name": "issue_rede_2",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        784
+      ],
+      "webhookId": "af8d08d7-adea-48f8-9343-9dd237ccfb1f",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "LLe8jx22k6vT6vje",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
+        "text": "A impressora está exibindo uma luz vermelha/amarela piscando indicando papel preso?\n\nDesligue a impressora, abra a tampa principal e puxe o papel preso suavemente com as duas mãos na direção da saída.\n\nA impressora voltou a funcionar corretamente?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Sim",
+                    "additionalFields": {
+                      "callback_data": "status_ok"
+                    }
+                  },
+                  {
+                    "text": "Não",
+                    "additionalFields": {
+                      "callback_data": "status_fail"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "id": "b7f8ab8d-b2da-4668-aa0f-56cb2075a2e3",
+      "name": "issue_impressora_1",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        976
+      ],
+      "webhookId": "a7d896c9-dc9e-4578-ad04-5b8221040f01",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "LLe8jx22k6vT6vje",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
+        "text": "A impressora emite algum aviso de toner ou cartucho com nível baixo?\n\nRetire o cartucho de toner com cuidado, balance-o suavemente na horizontal e encaixe-o novamente.\n\nA impressora voltou a funcionar corretamente?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Sim",
+                    "additionalFields": {
+                      "callback_data": "status_ok"
+                    }
+                  },
+                  {
+                    "text": "Não",
+                    "additionalFields": {
+                      "callback_data": "status_fail"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "id": "e8d0eff6-2af4-41dd-8aad-02f024874b51",
+      "name": "issue_impressora_2",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        1168
+      ],
+      "webhookId": "9c6aa311-58dc-42d1-8661-2e4974637673",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "LLe8jx22k6vT6vje",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
+        "text": "O sistema exibe a mensagem 'Senha Incorreta' ou 'Conta Bloqueada'?\n\nAcesse o portal de autoatendimento corporativo e utilize a opção 'Esqueci minha senha' para receber um código de redefinição por SMS/E-mail. Ou se dirija a diretoria.\n\nO acesso foi restabelecido?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Sim",
+                    "additionalFields": {
+                      "callback_data": "status_ok"
+                    }
+                  },
+                  {
+                    "text": "Não",
+                    "additionalFields": {
+                      "callback_data": "status_fail"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "id": "4b195668-cc4a-4654-9faa-7e8b90869827",
+      "name": "issue_acess_1",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        1360
+      ],
+      "webhookId": "3d632dea-4673-413d-8fab-e29c0aa935b8",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "LLe8jx22k6vT6vje",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.callback_query.message.chat.id }}",
+        "text": "O código de validação do aplicativo autenticador está dando como inválido?\n\nVerifique se a hora do seu celular está configurada para atualização automática. Horários dessincronizados geram códigos inválidos.\n\nO acesso foi restabelecido?",
+        "replyMarkup": "inlineKeyboard",
+        "inlineKeyboard": {
+          "rows": [
+            {
+              "row": {
+                "buttons": [
+                  {
+                    "text": "Sim",
+                    "additionalFields": {
+                      "callback_data": "status_ok"
+                    }
+                  },
+                  {
+                    "text": "Não",
+                    "additionalFields": {
+                      "callback_data": "status_fail"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "id": "247e7f50-fb40-4411-b596-a54d331422e3",
+      "name": "issue_acess_2",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        1552
+      ],
+      "webhookId": "e3545382-a886-49d0-88c5-6418bb9b4956",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "LLe8jx22k6vT6vje",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "Você é o assistente virtual do HelpDesk-IA, especialista em suporte técnico de TI (rede/internet, impressoras, login/acesso, e-mail, sistemas e hardware). Responda em português do Brasil, de forma clara, cordial e objetiva. Estruture soluções em passos numerados quando fizer sentido. Se o problema for complexo demais ou você não souber resolver com segurança, oriente o usuário a abrir um chamado com o departamento de TI. Se o usuário só quiser navegar por opções guiadas, sugira enviar /start para ver o menu.",
+          "maxIterations": 10
+        }
+      },
+      "id": "a70d901b-5da9-45c1-80a8-70a80932a0e7",
+      "name": "Assistente IA",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        448,
+        1744
+      ]
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite",
+        "options": {}
+      },
+      "id": "6430ed45-03a2-4d83-8e8c-013365d4455c",
+      "name": "Google Gemini Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        1952
+      ],
+      "credentials": {
+        "googlePalmApi": {
+          "id": "PEQNkh6nZwR4IA4H",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "id": "10e069f8-6672-4b4e-8a1f-67085718b175",
+      "name": "Enviar resposta da IA",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        1744
+      ],
+      "webhookId": "30951b54-d756-4db8-bafa-9c2a80ae7b55",
+      "retryOnFail": true,
+      "credentials": {
+        "telegramApi": {
+          "id": "LLe8jx22k6vT6vje",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.message.chat.id }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.4,
+      "position": [
+        576,
+        1936
+      ],
+      "id": "c28f0e90-75a7-4237-907b-48b8e60e3786",
+      "name": "Postgres Chat Memory",
+      "credentials": {
+        "postgres": {
+          "id": "zkJUa7YVS3eCcZQm",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Busca informações técnicas e manuais de suporte de TI salvos no banco de dados.",
+        "tableName": {
+          "__rl": true,
+          "value": "manuais_ti",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreSupabase",
+      "typeVersion": 1.3,
+      "position": [
+        704,
+        2016
+      ],
+      "id": "aaf181ef-d594-4e20-ae0d-cee27b936910",
+      "name": "Supabase Vector Store",
+      "credentials": {
+        "supabaseApi": {
+          "id": "M8ddhcO16FdIdIAh",
+          "name": "Supabase account 3"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        752,
+        2160
+      ],
+      "id": "7b4fc8ce-906d-488b-a298-0ec70069e525",
+      "name": "Embeddings Google Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "PEQNkh6nZwR4IA4H",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1408,
+        1520
+      ],
+      "id": "ad533e45-8832-4ac7-b4c2-348825125fef",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "tableId": "manuais_ti",
+        "returnAll": true
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        1616,
+        1520
+      ],
+      "id": "bfacc617-1a8e-407c-8483-04b0540b0506",
+      "name": "Get many rows",
+      "credentials": {
+        "supabaseApi": {
+          "id": "M8ddhcO16FdIdIAh",
+          "name": "Supabase account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-embedding-2:embedContent?key=AIzaSyDWF98bACE9sFNp4UXZDhMk-KRcldEbUJE",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"models/gemini-embedding-2\",\n  \"content\": {\n    \"parts\": [{\n      \"text\": \"{{ $json.texto_para_vetorizar }}\"\n    }]\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "text",
+              "outputPropertyName": "resposta_api"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1824,
+        1520
+      ],
+      "id": "e1751215-2355-4850-9af6-ddd3cb47da0a",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "tableId": "manuais_ti",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "id",
+              "condition": "eq",
+              "keyValue": "={{ $('Get many rows').item.json.id }}"
+            }
+          ]
+        },
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "embedding",
+              "fieldValue": "={{ JSON.stringify(JSON.parse($json.resposta_api).embedding.values) }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        2032,
+        1520
+      ],
+      "id": "57c42e89-8f63-4cb5-a6f5-27344c08529c",
+      "name": "Update a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "M8ddhcO16FdIdIAh",
+          "name": "Supabase account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Gerador de Embeddings \n(Manuais de ti)\n\n",
+        "height": 112,
+        "color": "#000000"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1616,
+        1344
+      ],
+      "typeVersion": 1,
+      "id": "3bb58555-b0e0-4caf-861f-7b70dfa9aeef",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Menu de start",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Chamado para Suporte Ténico",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Assistente IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Menu de Problemas de Rede",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Menu de Problemas na Impressora",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Menu problemas de Acesso/Login",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "issue_rede_1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_rede_2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_impressora_1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_impressora_2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_acess_1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "issue_acess_2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assistente IA": {
+      "main": [
+        [
+          {
+            "node": "Enviar resposta da IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Assistente IA",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Assistente IA",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "Assistente IA",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Supabase Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get many rows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get many rows": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Update a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "67a44205-501b-4031-888d-c352be7f9848",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "fd4eed9a35129fb1b6079e0c4240f17464d2dfb51e49e8fdacbea3d8ead1c324"
+  },
+  "nodeGroups": [],
+  "id": "XE0OGeh46qnMRJNE",
+  "tags": []
+}
